@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özlem & Duhan | Sonsuz Aşk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS TASARIM */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow-x: hidden;
+        }
+        #heart-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;
+            width: 90%; max-width: 500px; position: relative; z-index: 1;
+        }
+        .header { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; }
+        .profile { display: flex; flex-direction: column; align-items: center; }
+        .profile img {
+            width: 95px; height: 95px; border-radius: 50%;
+            border: 4px solid #ff4d6d; object-fit: cover;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+        .profile span { font-weight: 600; margin-top: 10px; font-size: 1.1rem; }
+        .main-heart { font-size: 45px; color: #ff4d6d; animation: beat 0.8s infinite; }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .timer-section {
+            background: rgba(255, 77, 109, 0.05); padding: 25px 10px;
+            border-radius: 20px; margin: 20px 0;
+        }
+        #timer { font-size: 1.4rem; color: #ff4d6d; font-weight: 800; display: block; }
+        .label-text { font-size: 0.8rem; color: #999; letter-spacing: 2px; font-weight: 600; margin-top: 5px; display: block; }
+        .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 25px; }
+        .gallery img { width: 100%; height: 130px; border-radius: 15px; object-fit: cover; }
+        .falling-heart { position: absolute; color: rgba(255, 77, 109, 0.4); animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div id="heart-particles"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="profile">
+                <img src="özlem.png" alt="Özlem">
+                <span>Özlem</span>
+            </div>
+            
+            <div class="main-heart">❤</div>
+
+            <div class="profile">
+                <img src="duhan.png" alt="Duhan">
+                <span>Duhan</span>
+            </div>
+        </div>
+
+        <div class="timer-section">
+            <span id="timer">Süre Hesaplanıyor...</span>
+            <span class="label-text">AŞKIMIZIN SÜRESİ</span>
+        </div>
+
+        <div class="gallery">
+            <img src="resim.png">
+            <img src="resim1.png">
+            <img src="resim2.png">
+            <img src="resim3.png">
+        </div>
+    </div>
+
+    <script>
+        // SAYAÇ AYARI: 1 ŞUBAT 2026 15:00 (Tanışma Saatiniz)
+        const start = new Date(2026, 0, 16, 15, 0, 0).getTime();
+
+        function update() {
+            const now = new Date().getTime();
+            const diff = now - start;
+            const timerElement = document.getElementById("timer");
+
+            if (timerElement) {
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+
+                const pad = (n) => n < 10 ? "0" + n : n;
+                timerElement.innerText = `${d} Gün ${pad(h)} Saat ${pad(m)} Dakika ${pad(s)} Saniye`;
+            }
+        }
+
+        setInterval(update, 1000);
+        update();
+
+        // ARKA PLAN KALPLERİ
+        function createHeart() {
+            const container = document.getElementById("heart-particles");
+            const h = document.createElement("div");
+            h.className = "falling-heart";
+            h.innerHTML = "❤";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = (Math.random() * 15 + 10) + "px";
+            h.style.animationDuration = (Math.random() * 3 + 3) + "s";
+            
+            container.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
